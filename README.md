@@ -1,4 +1,5 @@
 ## ARobot Wanderer - Objects Collecting bot
+[![Build Status](https://travis-ci.org/rajesh1996/wanderer-bot.svg?branch=iteration_1)](https://travis-ci.org/rajesh1996/wanderer-bot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rajesh1996/wanderer-bot/blob/master/LICENSE)
 
 ## Overview
@@ -26,6 +27,13 @@ cd ..
 catkin_make
 ```
 
+## Agile Iterative Process Log sheet
+
+[Agile log sheet](https://docs.google.com/spreadsheets/d/1dLMGk8zPM-85imcmCIn-f_uHfrWFpCoLMeSDqo5d0ug/edit?usp=sharing)
+
+## Sprint Backlog
+
+[Sprint sheet](https://docs.google.com/document/d/1nw3doTetBTEVzwYsUaO5rmn6OKx01XztPgxk0OSMTJQ/edit?usp=sharing)
 
 
 
