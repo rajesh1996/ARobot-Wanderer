@@ -46,36 +46,25 @@
 #include <tf/transform_listener.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/PoseStamped.h>
-#include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <base_local_planner/world_model.h>
 #include <base_local_planner/costmap_model.h>
-#include <move_base_msgs/MoveBaseGoal.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <costmap_2d/costmap_2d.h>
 #include <costmap_2d/costmap_2d_ros.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Path.h>
-#include <nav_msgs/GetPlan.h>
 #include <nav_core/base_global_planner.h>
-
-#include <set>
 #include <string>
 #include <vector>
-#include <utility>
-#include <limits>
-#include <random>
 #include "OccupancyGrid.hpp"
 #include "sensor_msgs/LaserScan.h"
-#include "sensor_msgs/PointCloud2.h"
 
 namespace astar_plugin {
 class AStarPlanner : public nav_core::BaseGlobalPlanner {
  public:
     int value;
     int mapSize;  //  size of the occupancy grid map
-    bool *occupancyGridMap;  //  pointer to check if map exists
-    float tBreak;
     ros::NodeHandle ROSNodeHandle;  //  Nodehandle object
     float originX;
     float originY;
