@@ -1,5 +1,5 @@
 ## ARobot Wanderer - Objects Collecting bot
-[![Build Status](https://travis-ci.org/rajesh1996/wanderer-bot.svg?branch=iteration_1)](https://travis-ci.org/rajesh1996/wanderer-bot)
+[![Build Status](https://travis-ci.org/rajesh1996/wanderer-bot.svg?branch=master)](https://travis-ci.org/rajesh1996/wanderer-bot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rajesh1996/wanderer-bot/blob/master/LICENSE)
 
 ## Overview
