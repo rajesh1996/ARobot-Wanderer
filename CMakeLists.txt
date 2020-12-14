@@ -49,9 +49,12 @@ include_directories(
 
 
 
+add_library(pathPlanner src/OccupancyGrid.cpp src/AstarPlanner.cpp)
 
 
 add_executable(book src/Randomizer.cpp src/SpawnCollect.cpp src/Collector.cpp)
 target_link_libraries(book ${catkin_LIBRARIES})
 
-
+add_executable(astar_move src/main.cpp src/Navigatebot.cpp)
+add_dependencies(astar_move ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(astar_move ${catkin_LIBRARIES})

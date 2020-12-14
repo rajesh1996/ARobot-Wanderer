@@ -36,22 +36,22 @@
  *  @section DESCRIPTION
  *  
  */
-#include "OccupancyGrid.hpp"
+#include "../include/OccupancyGrid.hpp"
 
-OccupancyGrid::OccupancyGrid() {
-currentOccupancyGrid = 0;
+GridSquare::GridSquare() {
+currentGridSquare = 0;
 fCost = 0.0;
 }
 
-OccupancyGrid::~OccupancyGrid() {
-currentOccupancyGrid = 0;
+GridSquare::~GridSquare() {
+currentGridSquare = 0;
 fCost = 0.0;
 }
 
-int OccupancyGrid::getCurrentOccupancyGrid() {
-return currentOccupancyGrid;
+int GridSquare::getCurrentGridSquare() {
+return currentGridSquare;
 }
 
-float OccupancyGrid::getFCost() {
+float GridSquare::getFCost() {
 return fCost;
 }

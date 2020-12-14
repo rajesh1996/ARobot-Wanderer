@@ -77,6 +77,7 @@ class GridSquare {
      *   @return float, current F cost
      */    
     float getFCost();
+    
 };
 
 #endif  //  INCLUDE_OCCUPANCYGRID_HPP_

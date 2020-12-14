@@ -40,31 +40,46 @@
 #ifndef INCLUDE_ASTARPLANNER_HPP_
 #define INCLUDE_ASTARPLANNER_HPP_
 
+
+
 #include <ros/ros.h>
 #include <tf/tf.h>
 #include <tf/transform_datatypes.h>
 #include <tf/transform_listener.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <angles/angles.h>
 #include <base_local_planner/world_model.h>
 #include <base_local_planner/costmap_model.h>
+#include <move_base_msgs/MoveBaseGoal.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <costmap_2d/costmap_2d.h>
 #include <costmap_2d/costmap_2d_ros.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Path.h>
+#include <nav_msgs/GetPlan.h>
 #include <nav_core/base_global_planner.h>
+
+#include <set>
 #include <string>
 #include <vector>
-#include "OccupancyGrid.hpp"
+#include <utility>
+#include <limits>
+#include <random>
+#include "../include/OccupancyGrid.hpp"
 #include "sensor_msgs/LaserScan.h"
+#include "sensor_msgs/PointCloud2.h"
 
 namespace astar_plugin {
-class AStarPlanner : public nav_core::BaseGlobalPlanner {
+class AStarGlobalPlanner : public nav_core::BaseGlobalPlanner {
  public:
     int value;
     int mapSize;  //  size of the occupancy grid map
+    bool *occupancyGridMap;  //  pointer to check if map exists
+    float infinity = std::numeric_limits<float>::infinity();  //  inf to start
+    float tBreak;
     ros::NodeHandle ROSNodeHandle;  //  Nodehandle object
     float originX;
     float originY;
@@ -80,14 +95,14 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      *   @param none
      *   @return none
      */
-    AStarPlanner();
+    AStarGlobalPlanner();
 
     /**
      *   @brief Overloaded constructor to call ros node handle.
      *   @param ros::NodeHandle
      *   @return none
      */
-    explicit AStarPlanner(ros::NodeHandle &);
+    explicit AStarGlobalPlanner(ros::NodeHandle &);
 
     /**
      *   @brief Overloaded constructor to initialise 2D cost map 
@@ -95,7 +110,7 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      *   @param costmap_2d::Costmap2DROS, ROS 2D cost map
      *   @return none
      */
-    AStarPlanner(std::string name, costmap_2d::Costmap2DROS *costmap_ros);
+    AStarGlobalPlanner(std::string name, costmap_2d::Costmap2DROS *costmap_ros);
 
     /**
      *   @brief Function inherited from base class to initialise map
@@ -151,7 +166,13 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      */
     std::vector<float> getMapCoordinates(float x, float y);
 
-
+    /**
+     *   @brief Function to calculate H cell score
+     *   @param int, cell index value 
+     *   @param int, cell limits
+     *   @return float, H value
+     */
+    float calculateHCellScore(int cellIndex, int cellSquare);
 
     /**
      *   @brief Function to calculate cell index
@@ -161,8 +182,19 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      */
     int calculateCellIndex(int i, int j);
 
+    /**
+     *   @brief Function to get Cell Row index
+     *   @param int, cell index value 
+     *   @return int, cell row index
+     */
+    int getCellRowIndex(int index);
 
-
+    /**
+     *   @brief Function to get Cell Column index
+     *   @param int, cell index value 
+     *   @return int, cell column index
+     */
+    int getCellColIndex(int index);
 
     /**
      *   @brief Function to check if the cell is free
@@ -171,6 +203,21 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      */
     bool isCellFree(int cellIndex);
 
+    /**
+     *   @brief Overloaded function to check if cell is free
+     *   @param int, cell x value
+     *   @param int, cell y value
+     *   @return bool, returns true if free
+     */
+    bool isCellFree(int i, int j);
+
+    /**
+     *   @brief Function to get moving cost to a cell
+     *   @param int, first cell index
+     *   @param int, second cell index
+     *   @return float, cell cost
+     */
+    float getMoveToCellCost(int cellIndex1, int cellIndex2);
 
    /**
      *   @brief Overloaded function to get moving cost to a cell
@@ -189,7 +236,13 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      */
     std::vector<int> findFreeNeighborCell(int cellIndex);
 
-
+    /**
+     *   @brief Function to convert coordinates into a static map
+     *   @param int, x coordinate
+     *   @param int, y coordinate
+     *   @return none
+     */
+    void convertToMapCoordinates(float &x, float &y);
 
     /**
      *   @brief Function to get cell index
@@ -198,7 +251,46 @@ class AStarPlanner : public nav_core::BaseGlobalPlanner {
      *   @return int, index of cell
      */
     int getCellIndex(float x, float y);
+
+    /**
+     *   @brief Function to get cell coordinates
+     *   @param int, index
+     *   @param float, x coordinate
+     *   @param float, y coordinate
+     *   @return none
+     */
+    void getCellCoordinates(int index, float &x, float &y);
+
+    /**
+     *   @brief Function to check whether given coordinates are under boundary
+     *   @param int, x coordinate
+     *   @param int, y coordinate
+     *   @return bool, returns true if inside boundary
+     */
+    bool isCoordinateInBounds(float x, float y);
+
+    /**
+     *   @brief Function to add nearest neighbor to open list of coordinates
+     *   @param std::set<GridSquare>, set of coordinates
+     *   @param int, neighbour cell
+     *   @param int, goal cell
+     *   @param std::vector<float>, current g function value for cell
+     *   @return none
+     */
+    void addNeighborCellToOpenList(std::set<GridSquare> &OPL,
+                                         int neighborCell,
+                                         int goalCell,
+                                         std::vector<float> g_score);
+
+    /**
+     *   @brief Function to check if the start and end goal are valid
+     *   @param int, start cell
+     *   @param int, goal cell
+     *   @return bool, returns true if valid.
+     */    
+    bool isStartAndGoalValid(int startCell, int goalCell);
 };
 };  //  namespace astar_plugin
+
 
 #endif  //  INCLUDE_ASTARPLANNER_HPP_
