@@ -8,7 +8,7 @@
   <arg name="configuration_basename" default="turtlebot3_lds_2d.lua"/>
   <arg name="open_rviz" default="true"/>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find wanderer-bot)/data/world/base_world"/>
+    <arg name="world_name" value="$(find wanderer-bot)/data/world/main_world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
@@ -35,6 +35,14 @@
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find turtlebot3_slam)/rviz/turtlebot3_$(arg slam_methods).rviz"/>
   </group>
+  <arg name = "record" default = "false" />
+    <node
+    pkg="rosbag"
+    type="record"
+    name="record"
+    args = "-a -O $(find wanderer-bot)/results/maprecording.bag -x /camera/(.*) --duration=25"
+    if = "$(arg record)"
+  />
 </launch>
 
 
