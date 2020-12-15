@@ -46,24 +46,6 @@
 #include "../include/Collector.hpp"
 
 
-// Collector::Collector() {
-// }
-// Collector::~Collector() {
-// }
-
-// bool Collector::collector() {
-//   bool flag = true;
-
-
-// return flag;
-// }
-
-// int main(int argc, char** argv) {
-//   return 0;
-// }
-
-
-
 typedef actionlib::SimpleActionClient
 <move_base_msgs::MoveBaseAction> MoveBaseClient;
 
@@ -74,18 +56,17 @@ Collector::~Collector() {
 
 bool Collector::collector() {
   bool flag = true;
-  // double xo = 0;
-  // double yo = 0;
-  // Randomizer r;
-  // SpawnCollect s;
-  // double xr = r.randomizeX();
-  // double yr = r.randomizeY();
-  // s.spawn(xr, yr, 1);
+  double xn;
+  double yn;
+  Randomizer r;
+  SpawnCollect s;
+  // Randomize spawn locations between 3 shelves
+  std::vector<double> v = r.randomizecoord();
+  s.spawn(v[0], v[1], v[2], 1);
+  // Add offset values
+  xn = r.xOffset(v[0]);
+  yn = r.yOffset(v[1]);
 
-  // double xn = -7.0 + xr;
-  // double yn = -6.5 + yr;
-  // xn = r.xOffset(xo, xr, xn);
-  // yn = r.yOffset(yo, yr, yn);
 
   // tell the action client  to spin a thread
   MoveBaseClient ac("move_base", true);
@@ -101,23 +82,23 @@ bool Collector::collector() {
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
-  goal.target_pose.pose.position.x = 1;
-  goal.target_pose.pose.position.y = 1;
+  goal.target_pose.pose.position.x = xn;
+  goal.target_pose.pose.position.y = yn;
   goal.target_pose.pose.position.z = 0.0;
   goal.target_pose.pose.orientation.w = 1.0;
 
   ROS_INFO_STREAM("Sending goal");
   ac.sendGoal(goal);
 
-  // ac.waitForResult(ros::Duration(17 + 2.3 * abs(6.5 + yr)));
-  // //  if the robot reaches successfully then it will remove the trash
-  // if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
-  //   ROS_INFO_STREAM("Hooray, Trash is collected!");
-  //   s.collect(1);
-  // } else {
-  //   ROS_INFO_STREAM("The base is in vicinity to the Object. Hence collected!");
-  //   s.collect(1);
-  // }
+  ac.waitForResult(ros::Duration(20));
+  //  if the robot reaches successfully then it will remove the trash
+  label: if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
+    ROS_INFO_STREAM("Object is collected");
+    s.collect(1);
+  } else {
+    ROS_INFO_STREAM("Near object. collecting");
+    goto label;
+  }
 return flag;
 }
 

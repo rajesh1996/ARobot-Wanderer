@@ -41,7 +41,7 @@
 #include <tf/transform_listener.h>
 #include <geometry_msgs/Twist.h>
 
-#include "Navigatebot.hpp"
+#include "../include/Navigatebot.hpp"
 
 Navigatebot::Navigatebot() {
 }
@@ -51,10 +51,37 @@ Navigatebot::~Navigatebot() {
 
 void Navigatebot::twistRobot(const geometry_msgs::TwistConstPtr &msg) {
   //  Set geometry messages to the robot
+    //  Set geometry messages to the robot
+  double transVelocity = msg->linear.x;
+  double rotVelocity = msg->angular.z;
+  double velDiff = (0.143 * rotVelocity) / 2.0;
+  double leftPower = (transVelocity + velDiff) / 0.076;
+  double rightPower = (transVelocity - velDiff) / 0.076;
+  //  check for individual node
+  ROS_INFO_STREAM("\n Left wheel: " << leftPower
+                  << ",  Right wheel: "<< rightPower << "\n");
 }
 
 int Navigatebot::start(bool flag) {
   //  initialise node handle
+  ros::NodeHandle nh;
+  if (flag) {
+    //  start a subcriber to the given topic
+    ros::Subscriber sub =
+        nh.subscribe("/cmd_vel", 1000,
+        &Navigatebot::twistRobot, this);
+    ros::Rate loop_rate(10);
+
+    while (ros::ok()) {
+      ros::spinOnce();
+      loop_rate.sleep();
+    }
+  } else {
+    //  for testing of the node, this is fake subscriber that publishes for 5
+    ros::Subscriber sub =
+        nh.subscribe("/cmd_vel", 5,
+        &Navigatebot::twistRobot, this);
+  }
 
   return 0;
 }
