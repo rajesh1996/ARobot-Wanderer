@@ -1,0 +1,4 @@
+
+<launch>   
+  <test pkg="wanderer-bot" test-name="testPlanner" type="testPlanner"/>
+</launch>
