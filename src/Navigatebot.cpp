@@ -58,8 +58,8 @@ void Navigatebot::twistRobot(const geometry_msgs::TwistConstPtr &msg) {
   double leftPower = (transVelocity + velDiff) / 0.076;
   double rightPower = (transVelocity - velDiff) / 0.076;
   //  check for individual node
-  ROS_INFO_STREAM("\n Left wheel: " << leftPower
-                  << ",  Right wheel: "<< rightPower << "\n");
+  ROS_INFO_STREAM("\n Robot left side power: " << leftPower
+                  << ",  Right right side power: "<< rightPower << "\n");
 }
 
 int Navigatebot::start(bool flag) {
