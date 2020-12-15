@@ -25,7 +25,7 @@
 
 /**
  *  @copyright MIT License 2020 Arjun Srinivasan Ambalam,Rajeshwar N.S
- *  @file    Collector.hpp
+ *  @file    Navigatebot.hpp
  *  @author  Arjun Srinivasan Ambalam
  *  @author  Rajeshwar N.S
  *  @date    12/07/2020
@@ -34,47 +34,93 @@
  *  @brief Final Project - wanderer-bot (Search and collect objects)
  *
  *  @section DESCRIPTION
- *  
+ *  To test Navigation of robot
  */
 
-#ifndef INCLUDE_NAVIGATEBOT_HPP_
-#define INCLUDE_NAVIGATEBOT_HPP_
 
 #include <ros/ros.h>
 #include <tf/transform_listener.h>
 #include <geometry_msgs/Twist.h>
+#include <std_msgs/Empty.h>
+#include <gtest/gtest.h>
+#include "../include/Navigatebot.hpp"
 
-class Navigatebot {
- public:
-  bool flag;
 
-  /**
-   *   @brief Constructor of class Navigatebot
-   *   @param none
-   *   @return none
-   */
-  Navigatebot();
+/**
+ * @def TEST(TestNavigatebot, testTwistRobot)
+ * @brief To check if the robot is able to twist on given topic
+ */
+TEST(TestNavigatebot, testTwistRobot) {
+geometry_msgs::Twist msg;
+msg.linear.x = 0.0;
+msg.linear.y = 0.0;
+msg.linear.z = 0.0;
+msg.angular.x = 0.0;
+msg.angular.y = 0.0;
+msg.angular.z = 0.0;
+//  initialise the test object
+Navigatebot testN = Navigatebot();
 
-  /**
-   *   @brief Destructor of class Navigatebot
-   *   @param none
-   *   @return none
-   */
-  ~Navigatebot();
+ros::NodeHandle nh;
+//  Create a publisher on the topic
+ros::Publisher pub =
+nh.advertise<geometry_msgs::Twist>
+("/cmd_vel", 5);
 
-  /**
-   *   @brief Function to twist the robot.
-   *   @param const geometry_msgs::TwistConstPtr, pointer to twist
-   *   @return none
-   */
-  void twistRobot(const geometry_msgs::TwistConstPtr &msg);
+//  run publisher and check publisher and subscriber
+ros::WallDuration(5.0).sleep();
+ros::spinOnce();
+EXPECT_EQ(0, pub.getNumSubscribers());
 
-  /**
-   *   @brief Function to start the robot
-   *   @param none
-   *   @return none
-   */
-  int start(bool flag);
-};
+//  run subscriber and check publisher and subscriber
+ros::Subscriber sub =
+nh.subscribe("/cmd_vel", 5,
+             &Navigatebot::twistRobot, &testN);
 
-#endif  //  INCLUDE_NAVIGATEBOT_HPP_
+for (int i = 0; i < 10; i++) {
+  pub.publish(msg);
+  ros::WallDuration(0.1).sleep();
+  ros::spinOnce();
+}
+
+//  Should return 1 as there is one publisher
+EXPECT_EQ(1, sub.getNumPublishers());
+//  Should return 1 as there is one subscriber
+EXPECT_EQ(1, pub.getNumSubscribers());
+}
+
+TEST(TestNavigatebot, testStart) {
+    geometry_msgs::Twist msg;
+    msg.linear.x = 0.0;
+    msg.linear.y = 0.0;
+    msg.linear.z = 0.0;
+    msg.angular.x = 0.0;
+    msg.angular.y = 0.0;
+    msg.angular.z = 0.0;
+    Navigatebot testN = Navigatebot();
+
+    ros::NodeHandle nh;
+    ros::Publisher pub =
+    nh.advertise<geometry_msgs::Twist>
+    ("/cmd_vel", 5, &testN);
+
+    //  run fake publisher and subscriber
+    ros::WallDuration(5.0).sleep();
+    ros::spinOnce();
+    EXPECT_EQ(0, pub.getNumSubscribers());
+
+    int res = 0;
+    testN.flag = true;
+    EXPECT_EQ(0, testN.start(false));
+}
+
+/**
+ *  @brief  Main Function for running tests for Navigate Robot Class
+ *  @param  int argc, char argv
+ *  @return int
+ */
+int main(int argc, char** argv) {
+    ros::init(argc, argv, "testNavigator");
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

@@ -37,8 +37,11 @@
  *  
  */
 
-
-#include <Randomizer.hpp>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+#include <random>
+#include "../include/Randomizer.hpp"
 
 Randomizer::Randomizer() {
 }
@@ -46,22 +49,44 @@ Randomizer::Randomizer() {
 Randomizer::~Randomizer() {
 }
 
-double Randomizer::randomizeX() {
-double xc = 1.0;
-return xc;
+std::vector<double> Randomizer::randomizecoord() {
+double xc;
+double yc;
+double zc;
+std::vector<double> cord;
+std::vector<int> v = {1,2,3};   
+std::random_device random_device;  
+std::mt19937 engine{random_device()};   
+std::uniform_int_distribution<int> dist(0, v.size() - 1);   
+int random_element = v[dist(engine)];
+if (random_element == 1) {
+xc = -7.245;
+yc = 4.9677;
+zc = 0.4458;
+}
+if (random_element ==2) {
+xc = 7.2625;
+yc = 5.090;
+zc = 0.0699;
 }
 
-double Randomizer::randomizeY() {
-double yc = 1.0;
-return yc;
+if (random_element==3) {
+xc = 8.367830;
+yc = 0.2700;
+zc = 0.9203;
+}
+cord = {xc,yc,zc};
+return cord;
 }
 
-double Randomizer::xOffset(double xo, double xr, double xn) {
+
+
+double Randomizer::xOffset(double xn) {
 // add offset to goal location
 return xn;
 }
 
-double Randomizer::yOffset(double yo, double yr, double yn) {
+double Randomizer::yOffset(double yn) {
 // add offset to goal location
-return yn;
+return yn-0.6;
 }

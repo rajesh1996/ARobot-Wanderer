@@ -25,7 +25,7 @@
 
 /**
  *  @copyright MIT License 2020 Arjun Srinivasan Ambalam,Rajeshwar N.S
- *  @file    Collector.hpp
+ *  @file    Navigatebot.hpp
  *  @author  Arjun Srinivasan Ambalam
  *  @author  Rajeshwar N.S
  *  @date    12/07/2020
@@ -34,47 +34,38 @@
  *  @brief Final Project - wanderer-bot (Search and collect objects)
  *
  *  @section DESCRIPTION
- *  
+ *  To test Navigation of robot
  */
 
-#ifndef INCLUDE_NAVIGATEBOT_HPP_
-#define INCLUDE_NAVIGATEBOT_HPP_
 
 #include <ros/ros.h>
-#include <tf/transform_listener.h>
-#include <geometry_msgs/Twist.h>
+#include <gtest/gtest.h>
+#include <boost/thread.hpp>
 
-class Navigatebot {
- public:
-  bool flag;
+/**
+ *  @brief  Main Function for running tests
+ *  @param  int argc, char argv
+ *  @return int
+ */
+void Spinthread(void) {
+    ros::Rate loop_rate(10);
 
-  /**
-   *   @brief Constructor of class Navigatebot
-   *   @param none
-   *   @return none
-   */
-  Navigatebot();
+    while (ros::ok()) {
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
+}
 
-  /**
-   *   @brief Destructor of class Navigatebot
-   *   @param none
-   *   @return none
-   */
-  ~Navigatebot();
+int main(int argc, char** argv) {
+  testing::InitGoogleTest(&argc, argv);
+  ros::init(argc, argv, "testPlanner");
+  ros::NodeHandle nh;
+  // boost::thread th(Spinthread);
 
-  /**
-   *   @brief Function to twist the robot.
-   *   @param const geometry_msgs::TwistConstPtr, pointer to twist
-   *   @return none
-   */
-  void twistRobot(const geometry_msgs::TwistConstPtr &msg);
+  // int ret = RUN_ALL_TESTS();
 
-  /**
-   *   @brief Function to start the robot
-   *   @param none
-   *   @return none
-   */
-  int start(bool flag);
-};
+  ros::shutdown();
+  // th.join();
 
-#endif  //  INCLUDE_NAVIGATEBOT_HPP_
+  return RUN_ALL_TESTS();
+}

@@ -37,7 +37,9 @@
  *  
  */
 
-#include <SpawnCollect.hpp>
+#include "../include/SpawnCollect.hpp"
+#include <cstdlib>
+#include <string>
 
 SpawnCollect::SpawnCollect() {
 }
@@ -45,6 +47,22 @@ SpawnCollect::SpawnCollect() {
 SpawnCollect::~SpawnCollect() {
 }
 
-bool SpawnCollect::spawn(int xr, int yr, int flag) {
+bool SpawnCollect::spawn(double xr, double yr, double zr, int flag) {
+std::string spawn11 ="rosrun gazebo_ros spawn_model -database artag -sdf -model cab1 -y ";
+std::string spawn2 = " -x ";
+std::string spawn3 = " -z " ; 
+std::string spawna = spawn11 + std::to_string(yr) + spawn2 +
+                     std::to_string(xr) + spawn3 + std::to_string(zr);
+if(flag == 1) {
+// Enter in terminal
+system(spawna.c_str());
+}
+return true;
+}
+bool SpawnCollect::collect(int flag) {
+if(flag == 1) {
+// Delete construction cone from gazebo world
+system("rosservice call gazebo/delete_model '{model_name: cab1}'");
+}
 return true;
 }

@@ -39,11 +39,7 @@
 #ifndef INCLUDE_OCCUPANCYGRID_HPP_
 #define INCLUDE_OCCUPANCYGRID_HPP_
 
-#include <set>
-#include <string>
-#include <vector>
-#include <utility>
-#include <random>
+#include <iostream>
 
 class GridSquare {
  public:

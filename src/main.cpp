@@ -38,6 +38,12 @@
  */
 
 #include <ros/ros.h>
+#include "../include/Navigatebot.hpp"
 int main(int argc, char** argv) {
+//  main node to start
+ros::init(argc, argv, "wanderer_listener");
+Navigatebot wanderer;
+//  start wanderer here
+wanderer.start(true);
 return 0;
 }

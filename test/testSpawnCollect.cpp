@@ -25,7 +25,7 @@
 
 /**
  *  @copyright MIT License 2020 Arjun Srinivasan Ambalam,Rajeshwar N.S
- *  @file    Collector.hpp
+ *  @file    Navigatebot.hpp
  *  @author  Arjun Srinivasan Ambalam
  *  @author  Rajeshwar N.S
  *  @date    12/07/2020
@@ -34,47 +34,38 @@
  *  @brief Final Project - wanderer-bot (Search and collect objects)
  *
  *  @section DESCRIPTION
- *  
+ *  Test cases for pathPlanner Algorithm
  */
 
-#ifndef INCLUDE_NAVIGATEBOT_HPP_
-#define INCLUDE_NAVIGATEBOT_HPP_
+#include <gtest/gtest.h>
+#include "../include/SpawnCollect.hpp"
 
-#include <ros/ros.h>
-#include <tf/transform_listener.h>
-#include <geometry_msgs/Twist.h>
+/**
+ * @def TEST(testspawnCollect, checkSpawn)
+ * @brief To check if trash is spawned
+ */
+TEST(testspawnCollect, checkSpawn) {
+SpawnCollect testn;
+// should be true on spawn
+EXPECT_TRUE(testn.spawn(8.367830, 0.2700, 0.9203, 1));
+}
 
-class Navigatebot {
- public:
-  bool flag;
+/**
+ * @def TEST(testspawnCollect, checkCollect)
+ * @brief To check if trash is collected
+ */
+TEST(testspawnCollect, checkCollect) {
+SpawnCollect testn;
+// should be true on collect
+EXPECT_TRUE(testn.collect(0));
+}
 
-  /**
-   *   @brief Constructor of class Navigatebot
-   *   @param none
-   *   @return none
-   */
-  Navigatebot();
-
-  /**
-   *   @brief Destructor of class Navigatebot
-   *   @param none
-   *   @return none
-   */
-  ~Navigatebot();
-
-  /**
-   *   @brief Function to twist the robot.
-   *   @param const geometry_msgs::TwistConstPtr, pointer to twist
-   *   @return none
-   */
-  void twistRobot(const geometry_msgs::TwistConstPtr &msg);
-
-  /**
-   *   @brief Function to start the robot
-   *   @param none
-   *   @return none
-   */
-  int start(bool flag);
-};
-
-#endif  //  INCLUDE_NAVIGATEBOT_HPP_
+/**
+ *  @brief  Main Function for running tests
+ *  @param  int argc, char argv
+ *  @return int
+ */
+int main(int argc, char **argv) {
+testing::InitGoogleTest(&argc, argv);
+return RUN_ALL_TESTS();
+}

@@ -39,10 +39,15 @@
  */
 #include <ros/ros.h>
 #include <move_base_msgs/MoveBaseAction.h>
-#include "SpawnCollect.hpp"
-#include "Randomizer.hpp"
-#include "Collector.hpp"
+#include <actionlib/client/simple_action_client.h>
 
+#include "../include/SpawnCollect.hpp"
+#include "../include/Randomizer.hpp"
+#include "../include/Collector.hpp"
+
+
+typedef actionlib::SimpleActionClient
+<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 Collector::Collector() {
 }
@@ -51,11 +56,55 @@ Collector::~Collector() {
 
 bool Collector::collector() {
   bool flag = true;
+  double xn;
+  double yn;
+  Randomizer r;
+  SpawnCollect s;
+  // Randomize spawn locations between 3 shelves
+  std::vector<double> v = r.randomizecoord();
+  s.spawn(v[0], v[1], v[2], 1);
+  // Add offset values
+  xn = r.xOffset(v[0]);
+  yn = r.yOffset(v[1]);
 
 
+  // tell the action client  to spin a thread
+  MoveBaseClient ac("move_base", true);
+
+  // wait for action server
+  while (!ac.waitForServer(ros::Duration(10.0))) {
+    ROS_INFO_STREAM("Waiting for the move_base action server to come up");
+  }
+
+  move_base_msgs::MoveBaseGoal goal;
+
+  // sending goal
+  goal.target_pose.header.frame_id = "map";
+  goal.target_pose.header.stamp = ros::Time::now();
+
+  goal.target_pose.pose.position.x = xn;
+  goal.target_pose.pose.position.y = yn;
+  goal.target_pose.pose.position.z = 0.0;
+  goal.target_pose.pose.orientation.w = 1.0;
+
+  ROS_INFO_STREAM("Sending goal");
+  ac.sendGoal(goal);
+
+  ac.waitForResult(ros::Duration(20));
+  //  if the robot reaches successfully then it will remove the trash
+  label: if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
+    ROS_INFO_STREAM("Object is collected");
+    s.collect(1);
+  } else {
+    ROS_INFO_STREAM("Near object. collecting");
+    goto label;
+  }
 return flag;
 }
 
 int main(int argc, char** argv) {
+  ros::init(argc, argv, "simple_navigation_goals");
+  Collector book;
+  book.collector();
   return 0;
 }
