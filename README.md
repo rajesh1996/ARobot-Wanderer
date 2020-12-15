@@ -45,12 +45,13 @@ catkin_make
 roslaunch wanderer-bot base.launch
 ```
 * Open a new terminal and run the node to perform the collection task
-<img src="/results/gaz.png"/>
 ```
 cd catkin_ws
 source ./deve/setup.bash
 rosrun wanderer-bot book
 ```
+<img src="/results/gaz.png"/>
+
 
 ## Setup
 1. Unzip the `artag.zip` folder and copy the contents into the `$HOME/.gazebo/mmodels` folder in your machine. 
