@@ -44,12 +44,16 @@ catkin_make
 ```
 roslaunch wanderer-bot base.launch
 ```
-* Open a new terminal and run the node
+* Open a new terminal and run the node to perform the collection task
+<img src="/results/gaz.png"/>
 ```
 cd catkin_ws
 source ./deve/setup.bash
 rosrun wanderer-bot book
 ```
+
+## Setup
+1. Unzip the `artag.zip` folder and copy the contents into the `$HOME/.gazebo/mmodels` folder in your machine. 
 
 ## Generating Map for custom world file
 * To build a map for a custom world file, run the following
@@ -63,6 +67,42 @@ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 * Run SLAM-gmapping package to generate a map using the custom world file with collect_world
 ```
 rosrun map_server map_saver -f ~/collect_world
+```
+**Record bag while Mapping and Collecting**
+<br> to record Mapping in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
+```
+source devel/setup.bash
+roslaunch wanderer-bot map.launch record:=true
+```
+<br> to record Collecting in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
+```
+source devel/setup.bash
+roslaunch wanderer-bot base.launch record:=true
+```
+
+**View Log Levels**
+To view Log levels using rqt console and rqt logger level
+Open a new Terminal
+```
+rosrun rqt_console rqt_console
+```
+Open a new Terminal
+```
+rosrun rqt_logger_level rqt_logger_level
+```
+
+**Run Bag Files**
+Go to the directory consisting bag file(Open a new Terminal)
+Run roscore
+```
+roscore
+```
+Open a new terminal
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+cd ~/catkin_ws/src/wanderer-bot/results/
+rosbag play collectrecording.bag 
 ```
 
 ## Run ROS Tests
