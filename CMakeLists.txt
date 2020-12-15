@@ -36,16 +36,35 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
+
+## To run tests, add dependencies for gtest and rostest
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  ##find_package(gtest)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+
+  catkin_add_gtest(testGrid test/testOccupancyGrid.cpp src/OccupancyGrid.cpp)
+  target_link_libraries(testGrid ${catkin_LIBRARIES})
+
+  catkin_add_gtest(testcollect test/testRandomizer.cpp test/testSpawnCollect.cpp src/Randomizer.cpp src/SpawnCollect.cpp)
+  target_link_libraries(testcollect ${catkin_LIBRARIES})
+
+  #add_rostest_gtest(testPlanner launch/testAstarPlanner.launch test/main.cpp test/testAstarPlanner.cpp src/OccupancyGrid.cpp src/AstarPlanner.cpp)
+  #target_link_libraries(testPlanner ${catkin_LIBRARIES})
+  #add_dependencies(testPlanner pathPlanner ${catkin_EXPORTED_TARGETS})
+
+  add_rostest_gtest(testNavigator launch/testNavigator.launch test/testNavigatebot.cpp src/Navigatebot.cpp)
+  target_link_libraries(testNavigator ${catkin_LIBRARIES})
+  add_dependencies(testNavigator astar_move ${catkin_EXPORTED_TARGETS})
+endif()
+
 ###########
 ## Build ##
 ###########
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-)
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 
 
