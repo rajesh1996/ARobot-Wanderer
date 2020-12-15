@@ -44,23 +44,23 @@
 #include <tf/transform_listener.h>
 #include <geometry_msgs/Twist.h>
 
-class NavigateRobot {
+class Navigatebot {
  public:
   bool flag;
 
   /**
-   *   @brief Constructor of class NavigateRobot
+   *   @brief Constructor of class Navigatebot
    *   @param none
    *   @return none
    */
-  NavigateRobot();
+  Navigatebot();
 
   /**
-   *   @brief Destructor of class NavigateRobot
+   *   @brief Destructor of class Navigatebot
    *   @param none
    *   @return none
    */
-  ~NavigateRobot();
+  ~Navigatebot();
 
   /**
    *   @brief Function to twist the robot.

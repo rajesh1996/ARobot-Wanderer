@@ -72,6 +72,33 @@
 #include "sensor_msgs/LaserScan.h"
 #include "sensor_msgs/PointCloud2.h"
 
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <ros/console.h>
+#include <pluginlib/class_loader.h>
+#include <pluginlib/class_list_macros.h>
+
+#include <set>
+#include <numeric>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <iterator>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <map>
+#include <limits>
+
 namespace astar_plugin {
 class AStarGlobalPlanner : public nav_core::BaseGlobalPlanner {
  public:

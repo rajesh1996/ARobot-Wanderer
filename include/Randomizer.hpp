@@ -40,6 +40,7 @@
 #ifndef INCLUDE_RANDOMIZER_HPP_
 #define INCLUDE_RANDOMIZER_HPP_
 
+#include <vector>
 class Randomizer {
  public:
   double xc, yc;
@@ -63,14 +64,9 @@ class Randomizer {
    *   @param none
    *   @return double xr
    */
-  double randomizeX();
+  std::vector<double> randomizecoord();
 
-  /**
-   *   @brief function to randomize y
-   *   @param none
-   *   @return double yr
-   */
-  double randomizeY();
+
 
   /**
    *   @brief function to offset x
@@ -79,7 +75,7 @@ class Randomizer {
    *   @param double xn, target
    *   @return double xn, new traget
    */
-  double xOffset(double xo, double xr, double xn);
+  double xOffset(double xn);
 
   /**
    *   @brief function to offset y
@@ -88,7 +84,7 @@ class Randomizer {
    *   @param double yn, traget
    *   @return double yn, new target
    */
-  double yOffset(double yo, double yr, double yn);
+  double yOffset(double yn);
 };
 
 #endif  //  INCLUDE_RANDOMIZER_HPP_

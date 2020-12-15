@@ -64,7 +64,7 @@ class SpawnCollect {
    *   @param int flag, reference
    *   @return bool
    */
-  bool spawn(int xr, int yr, int flag);
+  bool spawn(double xr, double yr, double zr, int flag);
 
   /**
    *   @brief Function to collect trash
