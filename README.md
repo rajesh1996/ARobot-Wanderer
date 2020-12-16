@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rajesh1996/wanderer-bot/blob/master/LICENSE)
 
 ## Overview
-The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo that identifies and collects the object’s from different rooms present in the warehouse and transfers them to the desired location. The robot tasks and its environment mimics a warehouse automation setup in which there is no human intervention in collecting the objects. This application can also be extended to other robots, environments, and different object identification tasks. The bot uses the G mapping (SLAM) and RRT exploration package to map its environment and navigate to certain locations based on the data received on the LIDAR sensor.
+The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo that identifies and collects the object’s from different rooms present in the warehouse and transfers them to the desired location. The robot tasks and its environment mimics a warehouse automation setup in which there is no human intervention in collecting the objects. This application can also be extended to other robots, environments, and different object identification tasks. The bot uses the G mapping (SLAM) to map its environment and navigate to certain locations based on the data received on the LIDAR sensor.
 
 ## Authors
 * Arjun Srinivasan
@@ -17,15 +17,6 @@ The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo 
 5. Rviz (Sensor visualization) 
 6. G mapping (SLAM)
 7. A-Star (Optimal Path planning)
-8. RRT exploration (Exploration strategy)
-
-## Build Instructions
-```
-cd catkin_ws/src
-git clone https://github.com/rajesh1996/wanderer-bot.git
-cd ..
-catkin_make
-```
 
 ## Agile Iterative Process Log sheet
 
@@ -34,6 +25,115 @@ catkin_make
 ## Sprint Backlog
 
 [Sprint sheet](https://docs.google.com/document/d/1nw3doTetBTEVzwYsUaO5rmn6OKx01XztPgxk0OSMTJQ/edit?usp=sharing)
+
+## Presentation
+
+[Slides](https://docs.google.com/presentation/d/1UMUzmukO2oE_W5D7BSV9Qj-iUwiHM7VWbbpau8O652g/edit?usp=sharing)
+[Presentation](https://drive.google.com/file/d/1l7O3Kj6YJjlkRNp915RV9DtYmy1UTr3v/view)
+
+## Build Instructions
+
+* Clone the repo and catkin_make
+```
+cd catkin_ws/src
+git clone https://github.com/rajesh1996/wanderer-bot.git
+cd ..
+source devel/setup.bash
+catkin_make
+```
+* Launch the Gazebo world file
+```
+roslaunch wanderer-bot base.launch
+```
+* Open a new terminal and run the node to perform the collection task
+```
+cd catkin_ws
+source ./deve/setup.bash
+rosrun wanderer-bot book
+```
+<img src="/results/gaz.png"/>
+
+
+## Setup
+1. Unzip the `artag.zip` folder and copy the contents into the `$HOME/.gazebo/mmodels` folder in your machine. 
+
+## Generating Map for custom world file
+* To build a map for a custom world file, run the following
+```
+roslaunch wanderer-bot map.launch 
+```
+* Run the turtlbot3 teleop node
+```
+roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch  
+```
+* Run SLAM-gmapping package to generate a map using the custom world file with collect_world
+```
+rosrun map_server map_saver -f ~/collect_world
+```
+**Record bag while Mapping and Collecting**
+<br> to record Mapping in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
+```
+source devel/setup.bash
+roslaunch wanderer-bot map.launch record:=true
+```
+<br> to record Collecting in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
+```
+source devel/setup.bash
+roslaunch wanderer-bot base.launch record:=true
+```
+
+**View Log Levels**
+To view Log levels using rqt console and rqt logger level
+Open a new Terminal
+```
+rosrun rqt_console rqt_console
+```
+Open a new Terminal
+```
+rosrun rqt_logger_level rqt_logger_level
+```
+
+**Run Bag Files**
+Go to the directory consisting bag file(Open a new Terminal)
+Run roscore
+```
+roscore
+```
+Open a new terminal
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+cd ~/catkin_ws/src/wanderer-bot/results/
+rosbag play collectrecording.bag 
+```
+
+## Run ROS Tests
+```
+catkin_make run_tests_wanderer-bot
+```
+
+## Doxygen
+* To generate doxygen file, run
+```
+sudo apt-get install doxygen
+sudo apt install doxygen-gui
+doxywizard
+```
+
+## References
+* https://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/
+* http://wiki.ros.org/pluginlib/Tutorials/Writing%20and%20Using%20a%20Simple%20Plugin
+* https://github.com/coins-lab/relaxed_astar
+* http://wiki.ros.org/rrt_exploration
+* https://dev.to/jansonsa/a-star-a-path-finding-c-4a4h
+
+## Bugs
+* The bot sometimes might not find a way to navigate through dynamic obstacles
+
+
+
+
+
 
 
 

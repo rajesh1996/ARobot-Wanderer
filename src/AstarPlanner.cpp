@@ -124,8 +124,8 @@ bool AStarGlobalPlanner::makePlan(const geometry_msgs::PoseStamped &start,
                       << "initialize() to use the planner");
     return false;
   }
-  ROS_INFO_STREAM("Got a start " << start.pose.position.x << ", "
-                   << start.pose.position.y <<  " and a goal:"
+  ROS_INFO_STREAM("Got a start pose" << start.pose.position.x << ", "
+                   << start.pose.position.y <<  " and a goal pose"
                    << goal.pose.position.x << ", "
                    << goal.pose.position.y);
   plan.clear();
