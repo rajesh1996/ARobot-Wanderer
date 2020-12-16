@@ -29,6 +29,7 @@ The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo 
 ## Presentation
 
 [Slides](https://docs.google.com/presentation/d/1UMUzmukO2oE_W5D7BSV9Qj-iUwiHM7VWbbpau8O652g/edit?usp=sharing)
+[Presentation](https://drive.google.com/file/d/1l7O3Kj6YJjlkRNp915RV9DtYmy1UTr3v/view)
 
 ## Build Instructions
 
