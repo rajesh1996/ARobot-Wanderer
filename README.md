@@ -1,5 +1,6 @@
 ## ARobot Wanderer - Objects Collecting bot
 [![Build Status](https://travis-ci.org/rajesh1996/wanderer-bot.svg?branch=master)](https://travis-ci.org/rajesh1996/wanderer-bot)
+[![Coverage Status](https://coveralls.io/repos/github/rajesh1996/wanderer-bot/badge.svg?branch=master)](https://coveralls.io/github/rajesh1996/wanderer-bot?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rajesh1996/wanderer-bot/blob/master/LICENSE)
 
 ## Overview
@@ -16,7 +17,7 @@ The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo 
 4. Robot Model: TurtleBot3
 5. Rviz (Sensor visualization) 
 6. G mapping (SLAM)
-7. A-Star (Optimal Path planning)
+7. A-Star (Path planning)
 
 ## Agile Iterative Process Log sheet
 
@@ -51,6 +52,8 @@ source ./deve/setup.bash
 rosrun wanderer-bot book
 ```
 <img src="/results/gaz.png"/>
+<img src="/results/artag.png"/>
+
 
 
 ## Setup
@@ -70,10 +73,7 @@ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 rosrun map_server map_saver -f ~/collect_world
 ```
 **Record bag while Mapping and Collecting**
-<br> to record Mapping in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
-```
-source devel/setup.bash
-roslaunch wanderer-bot map.launch record:=true
+
 ```
 <br> to record Collecting in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
 ```
