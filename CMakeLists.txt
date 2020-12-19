@@ -30,9 +30,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+   INCLUDE_DIRS include
 #  LIBRARIES wanderer-bot
-#  CATKIN_DEPENDS geometry_msgs roscpp rospy sensor_msgs std_msgs nav_core
+   CATKIN_DEPENDS nav_core roscpp std_msgs nav_core
 #  DEPENDS system_lib
 )
 
