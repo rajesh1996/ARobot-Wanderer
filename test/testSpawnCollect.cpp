@@ -47,18 +47,18 @@
 TEST(testspawnCollect, checkSpawn) {
 SpawnCollect testn;
 // should be true on spawn
-EXPECT_TRUE(testn.spawn(8.367830, 0.2700, 0.9203, 1));
+EXPECT_TRUE(testn.spawn(8.367830, 0.2700, 0.9203, 0));
 }
 
-/**
- * @def TEST(testspawnCollect, checkCollect)
- * @brief To check if trash is collected
- */
-TEST(testspawnCollect, checkCollect) {
-SpawnCollect testn;
-// should be true on collect
-EXPECT_TRUE(testn.collect(0));
-}
+// /**
+//  * @def TEST(testspawnCollect, checkCollect)
+//  * @brief To check if trash is collected
+//  */
+// TEST(testspawnCollect, checkCollect) {
+// SpawnCollect testn;
+// // should be true on collect
+// EXPECT_TRUE(testn.collect(0));
+// }
 
 /**
  *  @brief  Main Function for running tests
