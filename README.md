@@ -74,9 +74,8 @@ rosrun map_server map_saver -f ~/collect_world
 ```
 **Record bag while Mapping and Collecting**
 
-```
 <br> to record Collecting in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
-```
+
 ```
 source devel/setup.bash
 roslaunch wanderer-bot base.launch record:=true
