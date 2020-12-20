@@ -52,7 +52,7 @@ source ./deve/setup.bash
 rosrun wanderer-bot book
 ```
 <img src="/results/gaz.png"/>
-<img src="/results/artag.png"/>
+<img src="/results/artag.png"/ width="350" height="250">
 
 
 
@@ -77,6 +77,7 @@ rosrun map_server map_saver -f ~/collect_world
 ```
 <br> to record Collecting in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
 ```
+```
 source devel/setup.bash
 roslaunch wanderer-bot base.launch record:=true
 ```
@@ -94,6 +95,8 @@ rosrun rqt_logger_level rqt_logger_level
 
 **Run Bag Files**
 Go to the directory consisting bag file(Open a new Terminal)
+You can download the pre recoeded bag in this [link](https://drive.google.com/drive/folders/1JxEAqz9UTEJX0XFYxD497ZBU5edJoSj2?usp=sharing) and play it
+else run the demo yourself and follow the below instructions to play it.
 Run roscore
 ```
 roscore
@@ -123,7 +126,6 @@ doxywizard
 * https://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/
 * http://wiki.ros.org/pluginlib/Tutorials/Writing%20and%20Using%20a%20Simple%20Plugin
 * https://github.com/coins-lab/relaxed_astar
-* http://wiki.ros.org/rrt_exploration
 * https://dev.to/jansonsa/a-star-a-path-finding-c-4a4h
 
 ## Bugs
