@@ -96,7 +96,7 @@ bool Collector::collector() {
     ROS_INFO_STREAM("Object is collected");
     s.collect(1);
   } else {
-    ROS_INFO_STREAM("Near object. collecting");
+    ROS_INFO_STREAM("Going Near object. collecting");
     goto label;
   }
 return flag;

@@ -109,7 +109,6 @@ TEST(TestNavigatebot, testStart) {
     ros::spinOnce();
     EXPECT_EQ(0, pub.getNumSubscribers());
 
-    int res = 0;
     testN.flag = true;
     EXPECT_EQ(0, testN.start(false));
 }

@@ -44,6 +44,7 @@
 #include "../include/Navigatebot.hpp"
 
 Navigatebot::Navigatebot() {
+  flag = 0;
 }
 
 Navigatebot::~Navigatebot() {

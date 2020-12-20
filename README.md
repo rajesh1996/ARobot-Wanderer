@@ -1,5 +1,6 @@
 ## ARobot Wanderer - Objects Collecting bot
 [![Build Status](https://travis-ci.org/rajesh1996/wanderer-bot.svg?branch=master)](https://travis-ci.org/rajesh1996/wanderer-bot)
+[![Coverage Status](https://coveralls.io/repos/github/rajesh1996/wanderer-bot/badge.svg?branch=master)](https://coveralls.io/github/rajesh1996/wanderer-bot?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/rajesh1996/wanderer-bot/blob/master/LICENSE)
 
 ## Overview
@@ -16,7 +17,7 @@ The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo 
 4. Robot Model: TurtleBot3
 5. Rviz (Sensor visualization) 
 6. G mapping (SLAM)
-7. A-Star (Optimal Path planning)
+7. A-Star (Path planning)
 
 ## Agile Iterative Process Log sheet
 
@@ -30,6 +31,8 @@ The ARoBot Wanderer is a simulation of an object collecting turtlebot in gazebo 
 
 [Slides](https://docs.google.com/presentation/d/1UMUzmukO2oE_W5D7BSV9Qj-iUwiHM7VWbbpau8O652g/edit?usp=sharing)
 [Presentation](https://drive.google.com/file/d/1l7O3Kj6YJjlkRNp915RV9DtYmy1UTr3v/view)
+
+[Video presentation](https://drive.google.com/file/d/1l7O3Kj6YJjlkRNp915RV9DtYmy1UTr3v/view)
 
 ## Build Instructions
 
@@ -52,6 +55,8 @@ source ./deve/setup.bash
 rosrun wanderer-bot book
 ```
 <img src="/results/gaz.png"/>
+<img src="/results/artag.png"/ width="350" height="250">
+
 
 
 ## Setup
@@ -71,12 +76,9 @@ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
 rosrun map_server map_saver -f ~/collect_world
 ```
 **Record bag while Mapping and Collecting**
-<br> to record Mapping in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
-```
-source devel/setup.bash
-roslaunch wanderer-bot map.launch record:=true
-```
+
 <br> to record Collecting in a bag file, pass a record:=true argument as shown below (Open a new Terminal)
+
 ```
 source devel/setup.bash
 roslaunch wanderer-bot base.launch record:=true
@@ -95,6 +97,8 @@ rosrun rqt_logger_level rqt_logger_level
 
 **Run Bag Files**
 Go to the directory consisting bag file(Open a new Terminal)
+You can download the pre recoeded bag in this [link](https://drive.google.com/drive/folders/1JxEAqz9UTEJX0XFYxD497ZBU5edJoSj2?usp=sharing) and play it
+else run the demo yourself and follow the below instructions to play it.
 Run roscore
 ```
 roscore
@@ -124,7 +128,6 @@ doxywizard
 * https://emanual.robotis.com/docs/en/platform/turtlebot3/navigation/
 * http://wiki.ros.org/pluginlib/Tutorials/Writing%20and%20Using%20a%20Simple%20Plugin
 * https://github.com/coins-lab/relaxed_astar
-* http://wiki.ros.org/rrt_exploration
 * https://dev.to/jansonsa/a-star-a-path-finding-c-4a4h
 
 ## Bugs

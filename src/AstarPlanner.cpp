@@ -61,10 +61,12 @@
 #include <map>
 #include <limits>
 
+
 #include "../include/AstarPlanner.hpp"
 #include "../include/OccupancyGrid.hpp"
 
-PLUGINLIB_EXPORT_CLASS(astar_plugin::AStarGlobalPlanner, nav_core::BaseGlobalPlanner)
+PLUGINLIB_EXPORT_CLASS(astar_plugin::AStarGlobalPlanner, \
+  nav_core::BaseGlobalPlanner)
 
 namespace astar_plugin {
 
@@ -97,7 +99,7 @@ namespace astar_plugin {
     mapSize = width * height;
     tBreak = 1 + 1 / (mapSize);
     occupancyGridMap = new bool[mapSize];
-    
+
     //  Only available option is to chose for loop to ACCESS INDEX of element
     for (unsigned int iy = 0; iy < costmap->getSizeInCellsY(); iy++) {
       for (unsigned int ix = 0; ix < costmap->getSizeInCellsX(); ix++) {
@@ -426,7 +428,8 @@ float AStarGlobalPlanner::getMoveToCellCost(int cellIndex1, int cellIndex2) {
   return getMoveToCellCost(i1, j1, i2, j2);
 }
 
-float AStarGlobalPlanner::calculateHCellScore(int cellIndex, int goalCellSquare) {
+float AStarGlobalPlanner::calculateHCellScore(int cellIndex, int \
+  goalCellSquare) {
   int x1 = getCellRowIndex(goalCellSquare);
   int y1 = getCellColIndex(goalCellSquare);
   int x2 = getCellRowIndex(cellIndex);

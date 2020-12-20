@@ -44,6 +44,8 @@
 #include "../include/Randomizer.hpp"
 
 Randomizer::Randomizer() {
+            xc = 0;
+            yc = 0;
 }
 
 Randomizer::~Randomizer() {
@@ -54,10 +56,10 @@ double xc;
 double yc;
 double zc;
 std::vector<double> cord;
-std::vector<int> v = {1,2,3};   
-std::random_device random_device;  
-std::mt19937 engine{random_device()};   
-std::uniform_int_distribution<int> dist(0, v.size() - 1);   
+std::vector<int> v = {1, 2, 3};
+std::random_device random_device;
+std::mt19937 engine{random_device()};
+std::uniform_int_distribution<int> dist(0, v.size() - 1);
 int random_element = v[dist(engine)];
 if (random_element == 1) {
 xc = -7.245;
@@ -70,12 +72,12 @@ yc = 5.090;
 zc = 0.0699;
 }
 
-if (random_element==3) {
+if (random_element == 3) {
 xc = 8.367830;
 yc = 0.2700;
 zc = 0.9203;
 }
-cord = {xc,yc,zc};
+cord = {xc, yc, zc};
 return cord;
 }
 

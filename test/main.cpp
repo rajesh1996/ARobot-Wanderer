@@ -60,12 +60,18 @@ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   ros::init(argc, argv, "testPlanner");
   ros::NodeHandle nh;
-  // boost::thread th(Spinthread);
+  boost::thread th(Spinthread);
 
-  // int ret = RUN_ALL_TESTS();
+  int ret = RUN_ALL_TESTS();
+
+  if (ret > 0) {
+    std::cout <<"Test" <<std::endl;
+  }
+
+
 
   ros::shutdown();
-  // th.join();
+  th.join();
 
   return RUN_ALL_TESTS();
 }
